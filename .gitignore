@@ -1,0 +1,6 @@
+**/documents
+.env
+**/questions
+**/__pycache__
+**.db
+**/data

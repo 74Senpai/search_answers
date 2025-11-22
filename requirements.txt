@@ -1,0 +1,7 @@
+pypdf
+dotenv
+transformers
+numpy
+sentence-transformers
+google-genai
+argparse
