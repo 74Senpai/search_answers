@@ -16,7 +16,7 @@ def search_answer(input_data):
     token = client.models.count_tokens(model=config.gemini_model, contents=input_data_json)
     print(f"Token của {len(input_data)} câu hỏi là: {token.total_tokens}")
     if token.total_tokens > config.token_limit_per_minute / config.rate_limit_per_minute :
-        print("Dữ liệu đầu vào quá lớn, vui lòng giảm xuống mức thấp hơn")
+        raise ValueError("Dữ liệu đầu vào quá lớn, vui lòng giảm xuống mức thấp hơn")
     response = client.models.generate_content(
         model=config.gemini_model,
         config = types.GenerateContentConfig(
