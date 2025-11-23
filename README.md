@@ -106,6 +106,29 @@ tên file nên để không dấu không khoảng trắng.
 ```bash
 python src\index.py --help
 ```
+
+### Hướng phát triển.
+***Dự án đang trong quá trình phát triển phiên bản tiếp theo, để tăng nhanh tiến độ vui liên hệ tôi.***
+Dự án có thể phát triển theo 2 hướng chính và một hướng mở rộng:
+1.Phát triển theo hướng cá nhân hóa.
+- Phát triển để lưu trữ cho tất cả tài liệu, kiến thức, thông tin của người dùng đưa vào, xem hệ thống như
+ công cụ lưu trữ thông minh, trả lời nhanh các thông tin người dùng đưa vào trước đó và truy xuất nguồn gốc.
+
+2. Phát triển theo hướng cộng đồng.
+- Triển khai backe-end tập trung dữ liệu của một cộng đồng nhất định, tổng hợp kiến thức, thông tin có trong cộng đồng,
+  chia sẻ thông tin giữa những người trong cộng đồng.
+
+3. Phát triển hệ thống tạo câu hỏi dựa trên tài liệu đưa vào.
+- Tiến hành tạo câu hỏi dựa trên văn bản đưa vào để hỗ trợ trong việc học tập và hệ thống kiến thức. Tuy nhiên thách thức về
+  độ tin cậy của câu hỏi cũng như câu trả lời, độ hữu ích của câu hỏi và việc tạo câu hỏi liên quan tới hệ thống kiến thức
+  sâu rộng là một thách thức cực lớn.
+  
+Lưu ý chung:
+- Cả 3 cách tiếp cận trên đều yêu cầu hiệ thống hiện tại phát triển thân thiện hơn về UI-UX, đa dạng dữ liệu I/O
+cơ chế truy xuất nguồn gốc và cơ sở dữ liệu quan hệ rộng hơn. cũng như triển khai API để tốc độ khởi động cũng như dung lượng giảm xuống thấp nhất.
+Cũng như một model có hiệu năng và giới hạn tốt hơn.
+
+
 > [!NOTE]
 > Đối với `Gemini` miễn phí, cần hạn chế các câu hỏi và nội dung không liên quan để giảm tiêu tốn tài nguyên giới hạn.
 > Cần chú ý `rate limit` và `token` tránh phát sinh các chi phí không cần thiết.
