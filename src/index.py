@@ -1,6 +1,12 @@
 from sentence_transformers import SentenceTransformer
 from utils.db_manager import DBManager 
 import argparse
+import json
+import config
+
+CHUNK_SIZE = config.chunk_size
+CHUNK_OVERLAY = config.chunk_overlay
+
 
 print("Nạp model trích xuất đặc trưng văn bản...")
 model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -9,11 +15,6 @@ print("Kết nối tới cơ sở dữ liệu ...")
 db_mn = DBManager()
 print("Kết nối tới cơ sở dữ liệu thành công")
 db_mn.init_tables()
-
-# from utils.input_processing import parse_chunks_data
-# chunks_vectors_batch = db_mn.fetch_batch(0, 2)
-# data = parse_chunks_data(chunks_vectors_batch)
-# print(f"id_vector: {data[1]['id_vector']} ")
 
 parser = argparse.ArgumentParser(
     description="Tool quản lý documents và tìm câu trả lời từ document có sẵn"
@@ -52,7 +53,6 @@ args = parser.parse_args()
 if args.type_action == "add-document":
     from pypdf import PdfReader
     from utils import data_processing as ips
-    import json
 
     if not args.file_path:
         raise ValueError("Bạn cần cung cấp --file-path để thêm document")
@@ -68,9 +68,9 @@ if args.type_action == "add-document":
 
         page_chunks = ips.get_texts_chunks(
             texts=texts,
-            size=250,
+            size=CHUNK_SIZE,
             befor_chunk_txt=befor_chunk_txt,
-            overlap_ratio=0.3
+            overlap_ratio=CHUNK_OVERLAY
         )
         befor_chunk_txt = page_chunks[-1] if page_chunks else ""
 
@@ -96,44 +96,22 @@ elif args.type_action == "cleanup-db":
 
 elif args.type_action == "search-single":
     questions = args.questions
-    if not questions:
-        print("Bạn cần thêm câu hỏi để tiến hành tìm câu trả lời.")
-        exit()
+    from utils.data_processing import answer_questions, cleaning_answers
+    res = answer_questions(model=model, questions=questions)
+    answers = cleaning_answers(res.text)
+    for answer in answers:
+        print(
+            f"Câu hỏi : {answer['question']}\n"
+            f"Các lựa chọn : {answer['list-choice']}\n"
+            f"Bot-chọn : {answer['last-choice']}\n"
+            f"Bot lập luận : {answer['bot-answer']}\n"
+            f"Trích dẫn:\n"
+        )
+        for chunk in answer["quote-from"]:
+            print(f"Trang : {chunk['page']}")
+            print(f"Trích đoạn : {chunk['texts']}\n")
 
-    from utils.data_processing import parse_chunks_data, find_top_k_chunk, generate_input_for_ai
-    from utils.ai_analysis import search_answer
 
-    top_chunks = {f"question-{i}": [] for i in range(len(questions))}
-
-    last_id = 0
-    chunks_vectors_batch = db_mn.fetch_batch(last_id, 500)
-
-    while chunks_vectors_batch:
-        print(f"Process batch start by {last_id}")
-        chunks_vectors = parse_chunks_data(chunks_vectors_batch)
-
-        for i, question in enumerate(questions):
-
-            merged_vectors = chunks_vectors.copy()
-            if top_chunks[f"question-{i}"]:
-                merged_vectors.extend(top_chunks[f"question-{i}"])
-
-            input_vector = model.encode(question)
-
-            top_k_batch = find_top_k_chunk(
-                model=model,
-                input_vector=input_vector,
-                chunks_data=merged_vectors,
-                top_k=5
-            )
-
-            top_chunks[f"question-{i}"] = top_k_batch
-
-        last_id = chunks_vectors[-1]["id_vector"]
-        chunks_vectors_batch = db_mn.fetch_batch(last_id, 500)
-
-    res = search_answer(generate_input_for_ai(questions=questions, top_k_chunk=top_chunks))
-    print(res.text)
 
 
 

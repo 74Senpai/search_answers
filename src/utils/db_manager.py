@@ -1,7 +1,8 @@
 import sqlite3
+from config import db_path
 
 class DBManager:
-    def __init__(self, db_path=r"Z:\my_tools\search_answers\data\docs_data.db"):
+    def __init__(self, db_path=db_path):
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self.initialized = False

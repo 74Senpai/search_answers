@@ -71,4 +71,60 @@ def generate_input_for_ai(questions, top_k_chunk):
             "chunks-top-k": chunks_data,
         })
 
-        return inputs_data
+    return inputs_data
+
+def answer_questions(model, questions):
+    if not questions:
+        print("Bạn cần thêm câu hỏi để tiến hành tìm câu trả lời.")
+        return
+
+    from .ai_analysis import search_answer
+    from .db_manager import DBManager
+    import config
+
+    CHUNK_DATA_PROCESS_BATCH = config.chunk_data_process_batch
+    TOP_K = config.top_k
+    db_mn = DBManager()
+    top_chunks = {f"question-{i}": [] for i in range(len(questions))}
+
+    last_id = 0
+    chunks_vectors_batch = db_mn.fetch_batch(last_id, CHUNK_DATA_PROCESS_BATCH)
+
+    while chunks_vectors_batch:
+        chunks_vectors = parse_chunks_data(chunks_vectors_batch)
+
+        for i, question in enumerate(questions):
+
+            merged_vectors = chunks_vectors.copy()
+            if top_chunks[f"question-{i}"]:
+                merged_vectors.extend(top_chunks[f"question-{i}"])
+
+            input_vector = model.encode(question)
+
+            top_k_batch = find_top_k_chunk(
+                model=model,
+                input_vector=input_vector,
+                chunks_data=merged_vectors,
+                top_k=TOP_K
+            )
+
+            top_chunks[f"question-{i}"] = top_k_batch
+
+        last_id = chunks_vectors[-1]["id_vector"]
+        chunks_vectors_batch = db_mn.fetch_batch(last_id, CHUNK_DATA_PROCESS_BATCH)
+
+    res = search_answer(generate_input_for_ai(questions=questions, top_k_chunk=top_chunks))
+    return res
+
+def cleaning_answers(answers):
+    import json
+    list_raw = answers.split("```json")
+    clean_answers = []
+    for raw in list_raw:
+        raw = raw.replace("```json", "").replace("```", "").strip()
+        if not raw:
+            continue
+        clean_answers.append(json.loads(raw))
+    
+    return clean_answers
+    
