@@ -118,9 +118,7 @@ Dự án có thể phát triển theo 2 hướng chính và một hướng mở 
   chia sẻ thông tin giữa những người trong cộng đồng.
 
 3. Phát triển hệ thống tạo câu hỏi dựa trên tài liệu đưa vào.
-- Tiến hành tạo câu hỏi dựa trên văn bản đưa vào để hỗ trợ trong việc học tập và hệ thống kiến thức. Tuy nhiên thách thức về
-  độ tin cậy của câu hỏi cũng như câu trả lời, độ hữu ích của câu hỏi và việc tạo câu hỏi liên quan tới hệ thống kiến thức
-  sâu rộng là một thách thức cực lớn.
+- Tiến hành tạo câu hỏi dựa trên văn bản đưa vào để hỗ trợ trong việc học tập và hệ thống hóa kiến thức. Tuy nhiên, thách thức về độ tin cậy của câu hỏi cũng như câu trả lời, độ hữu ích của câu hỏi và việc tạo câu hỏi liên quan tới hệ thống kiến thức sâu rộng là một thách thức cực lớn.
   
 Lưu ý chung:
 - Cả 3 cách tiếp cận trên đều yêu cầu hiệ thống hiện tại phát triển thân thiện hơn về UI-UX, đa dạng dữ liệu I/O
