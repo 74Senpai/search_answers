@@ -67,7 +67,7 @@ cũng như một số công việc khác*
 #### Các bước cài đặt và sử dụng
 1. Tải thư mục dự án bằng `git` hoặc tải file nén của dự án xuống.
 - Đối với `git`
-    - ```bash
+  ```bash
     git clone https://github.com/74Senpai/search_answers.git
     ```
 - Hoặc truy cập https://github.com/74Senpai/search_answers để lấy file nén của dự án
