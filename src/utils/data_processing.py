@@ -131,3 +131,25 @@ def cleaning_answers(answers):
             continue
     
     return clean_answers
+    
+def make_dict_for_excel(answers):
+    answers_list = []
+    for ans in answers:
+        quotes = ans.get("quote-from", [])
+        if quotes:
+            quote_pages = "; ".join(str(q.get("page", "")) for q in quotes)
+            quote_texts = "\n".join(q.get("texts", "") for q in quotes)
+        else:
+            quote_pages = ""
+            quote_texts = ""
+
+        answers_list.append({
+            "question": ans["question"],
+            "list_choice": ans.get("list-choice", []),
+            "bot_answer": ans.get("bot-answer", ""),
+            "last_choice": ans.get("last-choice", ""),
+            "quote_pages": quote_pages,
+            "quote_texts": quote_texts
+        })
+
+    return answers_list
