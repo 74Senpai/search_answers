@@ -135,7 +135,7 @@ elif args.type_action == "search-file":
     if batch_questions:
         res = answer_questions(model=model, questions=batch_questions)
         answers = cleaning_answers(res.text)
-        all_answers.append(make_dict_for_excel(answers=answers))
+        all_answers.extend(make_dict_for_excel(answers=answers))
 
     answer_data_frame = pd.DataFrame(all_answers)
     answer_data_frame.to_excel(config.exl_path, index=False)
