@@ -121,10 +121,13 @@ def cleaning_answers(answers):
     list_raw = answers.split("```json")
     clean_answers = []
     for raw in list_raw:
-        raw = raw.replace("```json", "").replace("```", "").strip()
-        if not raw:
+        json_str = raw.replace("```", "").strip()
+        if not json_str:
             continue
-        clean_answers.append(json.loads(raw))
+        try:
+            clean_answers.append(json.loads(json_str))
+        except json.JSONDecodeError:
+            print(f"Cảnh báo: Không thể phân tích chuỗi JSON: {json_str}")
+            continue
     
     return clean_answers
-    
