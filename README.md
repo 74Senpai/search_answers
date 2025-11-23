@@ -60,7 +60,7 @@ cũng như một số công việc khác*
 
 ### Hướng dẫn cài đặt.
 #### ***Yêu cầu***
-+ ***Nền tảng : windown, linux, macos***
++ ***Nền tảng : windows, linux, macos***
 + ***Đã cài đặt `python`***
 + ***Có tối thiểu 1.1GB bộ nhớ còn trống***
 
