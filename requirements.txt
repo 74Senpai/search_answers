@@ -5,3 +5,5 @@ numpy
 sentence-transformers
 google-genai
 argparse
+pandas
+openpyxl

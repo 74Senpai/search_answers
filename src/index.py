@@ -7,7 +7,6 @@ import config
 CHUNK_SIZE = config.chunk_size
 CHUNK_OVERLAY = config.chunk_overlay
 
-
 print("Nạp model trích xuất đặc trưng văn bản...")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 print("Nạp model trích xuất đặc trưng văn bản thành công.")
@@ -73,18 +72,16 @@ if args.type_action == "add-document":
             overlap_ratio=CHUNK_OVERLAY
         )
         befor_chunk_txt = page_chunks[-1] if page_chunks else ""
-
+        print("Tiến hành trích xuất và lưu tài liệu ...")
         for chunk_i, chunk in enumerate(page_chunks):
             embedding = model.encode(chunk)
             embedding_str = json.dumps(embedding.tolist()) 
             if embedding.shape[0] == 0:
                 print(f"Page {page_num} | Chunk {chunk_i}: Embedding failed !!!")
             else:
-                print(f"Page {page_num} | Chunk {chunk_i}: Embedding successful")
-                print("Insert chunk to database ...")
                 db_mn.insert_chunk(page=page_num, texts=chunk, embedding_vectors=embedding_str)
-
-            print(chunk[:20])
+            
+        print("Lưu tài liệu thành công!")
 
 elif args.type_action == "cleanup-db":
     confirm = input("Bạn có chắc muốn xóa toàn bộ database? (y/n): ").strip().lower()
@@ -111,7 +108,36 @@ elif args.type_action == "search-single":
             print(f"Trang : {chunk['page']}")
             print(f"Trích đoạn : {chunk['texts']}\n")
 
+elif args.type_action == "search-file":
+    path = args.file_path
+    if not path:
+        raise ValueError("Bạn cần cung cấp --file-path để thêm document")
 
+    import pandas as pd
+    from utils.data_processing import answer_questions, cleaning_answers, make_dict_for_excel
 
+    batch_size = config.question_batch_limit
+    batch_questions = []
+    data_frame = pd.read_excel(path)
 
+    all_answers = []
+
+    for _, row in data_frame.iterrows():
+        batch_questions.append(row)
+
+        if len(batch_questions) == batch_size:
+            res = answer_questions(model=model, questions=batch_questions)
+            answers = cleaning_answers(res.text)
+            batch_questions.clear()
+
+            all_answers.append(make_dict_for_excel(answers=answers))
+
+    if batch_questions:
+        res = answer_questions(model=model, questions=batch_questions)
+        answers = cleaning_answers(res.text)
+        all_answers.append(make_dict_for_excel(answers=answers))
+
+    answer_data_frame = pd.DataFrame(all_answers)
+    answer_data_frame.to_excel(config.exl_path, index=False)
+    print(f"Đã lưu kết quả vào {config.exl_path}")
 

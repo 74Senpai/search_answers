@@ -14,6 +14,10 @@ chunk_overlay = 0.3
 chunk_data_process_batch = 500
 ## Số lượng văn bản liên quan 
 top_k = 10
+## Số lượng câu hỏi tối đa mỗi batch
+question_batch_limit = 5
+## Output excel path
+exl_path = r"Z:\my_tools\search_answers\output\answers_output.xlsx"
 
 
 # Cấu hình làm việc với Gemini
