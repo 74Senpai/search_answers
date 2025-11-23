@@ -111,8 +111,7 @@ python src\index.py --help
 ***Dự án đang trong quá trình phát triển phiên bản tiếp theo, để tăng nhanh tiến độ, vui lòng liên hệ tôi.***
 Dự án có thể phát triển theo 2 hướng chính và một hướng mở rộng:
 1.Phát triển theo hướng cá nhân hóa.
-- Phát triển để lưu trữ cho tất cả tài liệu, kiến thức, thông tin của người dùng đưa vào, xem hệ thống như
- công cụ lưu trữ thông minh, trả lời nhanh các thông tin người dùng đưa vào trước đó và truy xuất nguồn gốc.
+- Phát triển để lưu trữ cho tất cả tài liệu, kiến thức, thông tin của người dùng đưa vào, xem hệ thống như một công cụ lưu trữ thông minh, trả lời nhanh các thông tin người dùng đưa vào trước đó và truy xuất nguồn gốc.
 
 2. Phát triển theo hướng cộng đồng.
 - Triển khai backe-end tập trung dữ liệu của một cộng đồng nhất định, tổng hợp kiến thức, thông tin có trong cộng đồng,
