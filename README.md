@@ -86,7 +86,7 @@ pip install -r requirements.txt
 5. Tiến hành trích xuất và lưu tài liệu vào cơ sở dữ liệu bằng dòng lệnh.
 ***Đảm bảo bạn ở thư mục gốc của dự án***
 ```bash
-python src\index.py --type-action=add-document --file-path=duong-dan-toi-file-tai-lieu
+python src/index.py --type-action=add-document --file-path=duong-dan-toi-file-tai-lieu
 ```
 6. Tiến hành tìm đáp án bằng giao diện dòng lệnh.
 - Tìm bằng câu hỏi trực tiếp
