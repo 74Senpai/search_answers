@@ -121,9 +121,7 @@ Dự án có thể phát triển theo 2 hướng chính và một hướng mở 
 - Tiến hành tạo câu hỏi dựa trên văn bản đưa vào để hỗ trợ trong việc học tập và hệ thống hóa kiến thức. Tuy nhiên, thách thức về độ tin cậy của câu hỏi cũng như câu trả lời, độ hữu ích của câu hỏi và việc tạo câu hỏi liên quan tới hệ thống kiến thức sâu rộng là một thách thức cực lớn.
   
 Lưu ý chung:
-- Cả 3 cách tiếp cận trên đều yêu cầu hiệ thống hiện tại phát triển thân thiện hơn về UI-UX, đa dạng dữ liệu I/O
-cơ chế truy xuất nguồn gốc và cơ sở dữ liệu quan hệ rộng hơn. cũng như triển khai API để tốc độ khởi động cũng như dung lượng giảm xuống thấp nhất.
-Cũng như một model có hiệu năng và giới hạn tốt hơn.
+- Cả 3 cách tiếp cận trên đều yêu cầu hệ thống hiện tại phát triển thân thiện hơn về UI-UX, đa dạng dữ liệu I/O, cơ chế truy xuất nguồn gốc và cơ sở dữ liệu quan hệ rộng hơn, cũng như triển khai API để tốc độ khởi động và dung lượng giảm xuống thấp nhất, cùng với một model có hiệu năng và giới hạn tốt hơn.
 
 
 > [!NOTE]
