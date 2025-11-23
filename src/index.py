@@ -130,7 +130,7 @@ elif args.type_action == "search-file":
             answers = cleaning_answers(res.text)
             batch_questions.clear()
 
-            all_answers.append(make_dict_for_excel(answers=answers))
+            all_answers.extend(make_dict_for_excel(answers=answers))
 
     if batch_questions:
         res = answer_questions(model=model, questions=batch_questions)
