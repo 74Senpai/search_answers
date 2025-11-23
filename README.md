@@ -108,7 +108,7 @@ python src\index.py --help
 ```
 
 ### Hướng phát triển.
-***Dự án đang trong quá trình phát triển phiên bản tiếp theo, để tăng nhanh tiến độ vui liên hệ tôi.***
+***Dự án đang trong quá trình phát triển phiên bản tiếp theo, để tăng nhanh tiến độ, vui lòng liên hệ tôi.***
 Dự án có thể phát triển theo 2 hướng chính và một hướng mở rộng:
 1.Phát triển theo hướng cá nhân hóa.
 - Phát triển để lưu trữ cho tất cả tài liệu, kiến thức, thông tin của người dùng đưa vào, xem hệ thống như
