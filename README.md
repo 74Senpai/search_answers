@@ -111,7 +111,7 @@ python src\index.py --help
 > Cần chú ý `rate limit` và `token` tránh phát sinh các chi phí không cần thiết.
 
 > [!WARN]
-> Công cụ chỉ hỗ trợ lựa chọn đáp án cho la đúng nhất dựa theo dữ liệu.
+> Công cụ chỉ hỗ trợ lựa chọn đáp án cho là đúng nhất dựa theo dữ liệu.
 > Cần có tư duy phản biện và kiểm chứng lại câu trả lời.
 > Không để lộ các thông tin trong file `.env`.
 
