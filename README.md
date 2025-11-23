@@ -50,6 +50,70 @@ hiện nay đều sử dụng định dạng này. Thư viện hỗ trợ trích
 giản và người dùng có thể kiểm soát hoàn toàn dữ liệu của mình.
     + Tài liệu tham khảo : https://sqlite.org/quickstart.html
 
+5. Pandas
+- `Pandas` là một thư viện xử lý dữ liệu mạnh mẽ. Trong dự án, `pandas` hỗ trợ trích xuất các câu hỏi có cấu
+trúc từ tài liệu excel cũng như hỗ trợ tạo và lưu kết quả xử lý vào file excel.
+    + Tài liệu tham khảo : https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html
+
 *Ngoài ra, hệ thống còn sự dụng một số thư viện có sẵn để hỗ trợ thao tác trên giao diện dòng lệnh
 cũng như một số công việc khác*
 
+### Hướng dẫn cài đặt.
+#### ***Yêu cầu***
++ ***Nền tảng : windows, linux, macos***
++ ***Đã cài đặt `python`***
++ ***Có tối thiểu 1.1GB bộ nhớ còn trống***
+
+#### Các bước cài đặt và sử dụng
+1. Tải thư mục dự án bằng `git` hoặc tải file nén của dự án xuống.
+- Đối với `git`
+    - ```bash
+    git clone https://github.com/74Senpai/search_answers.git
+    ```
+- Hoặc truy cập https://github.com/74Senpai/search_answers để lấy file nén của dự án
+
+2. Ở thư mục gốc của dự án mở giao diện dòng lệnh và tiến hành cài đặt các thư viện cần thiết.
+```bash
+pip install -r requirements.txt
+```
+> [!TIPS]
+> Nên tạo thư mục venv để tránh xung đột thư viện
+
+3. Tạo têp `.env` ở thư mục gốc dự án và truyền `GEMINI_API_KEY` của bạn vào.
+***Nếu chưa có `GEMINI_API_KEY` xem lại các công cụ hỗ trợ và truy cập tài liệu hướng dẫn của Google.`***
+
+4. Tiến hành cấu hình các đường dẫn và các thông tin cần thiết ở `config.py`
+5. Tiến hành trích xuất và lưu tài liệu vào cơ sở dữ liệu bằng dòng lệnh.
+***Đảm bảo bạn ở thư mục gốc của dự án***
+```bash
+python src/index.py --type-action=add-document --file-path=duong-dan-toi-file-tai-lieu
+```
+6. Tiến hành tìm đáp án bằng giao diện dòng lệnh.
+- Tìm bằng câu hỏi trực tiếp
+```bash
+python src\index.py --type-action=search-single --questions "Câu hỏi 1" "Câu hỏi 2"
+```
+***Lưu ý:*** có thể hỏi nhiều câu cùng lúc nhưng phải đảm bảo mỗi câu được bọc trong cặp 
+dấu nháy kép `" "` và mỗi câu cách nhau một khoảng trắng.
+
+- Tìm bằng file excel câu hỏi
+```bash
+python src\index.py --type-action=search-file --file-path=duong-dan-toi-file-cau-hoi
+```
+***Lưu ý:*** file câu hỏi phải là file excel và có cấu trúc câu hỏi theo hàng rõ ràng, hợp lệ,
+tên file nên để không dấu không khoảng trắng.
+- Tìm hiểu thêm các tùy chọn
+```bash
+python src\index.py --help
+```
+> [!NOTE]
+> Đối với `Gemini` miễn phí, cần hạn chế các câu hỏi và nội dung không liên quan để giảm tiêu tốn tài nguyên giới hạn.
+> Cần chú ý `rate limit` và `token` tránh phát sinh các chi phí không cần thiết.
+
+> [!WARN]
+> Công cụ chỉ hỗ trợ lựa chọn đáp án cho là đúng nhất dựa theo dữ liệu.
+> Cần có tư duy phản biện và kiểm chứng lại câu trả lời.
+> Không để lộ các thông tin trong file `.env`.
+
+> [!ERROR]
+> Mọi lỗi liên quan tới logic nghiệp vụ vui lòng phản hồi hoặc tạo `git issues` để được khắc phục sớm nhất.
