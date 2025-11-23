@@ -76,7 +76,7 @@ cũng như một số công việc khác*
 ```bash
 pip install -r requirements.txt
 ```
-> [!TIPS]
+> [!TIP]
 > Nên tạo thư mục venv để tránh xung đột thư viện
 
 3. Tạo têp `.env` ở thư mục gốc dự án và truyền `GEMINI_API_KEY` của bạn vào.
@@ -110,10 +110,10 @@ python src\index.py --help
 > Đối với `Gemini` miễn phí, cần hạn chế các câu hỏi và nội dung không liên quan để giảm tiêu tốn tài nguyên giới hạn.
 > Cần chú ý `rate limit` và `token` tránh phát sinh các chi phí không cần thiết.
 
-> [!WARN]
+> [!WARNING]
 > Công cụ chỉ hỗ trợ lựa chọn đáp án cho là đúng nhất dựa theo dữ liệu.
 > Cần có tư duy phản biện và kiểm chứng lại câu trả lời.
 > Không để lộ các thông tin trong file `.env`.
 
-> [!ERROR]
+> [!CAUTION]
 > Mọi lỗi liên quan tới logic nghiệp vụ vui lòng phản hồi hoặc tạo `git issues` để được khắc phục sớm nhất.
