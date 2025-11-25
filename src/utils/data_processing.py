@@ -132,7 +132,7 @@ def make_dict_for_excel(answers):
     print(answers)
     for ans in answers:
         print(f"ans{ans}")
-        quotes = ans["quote-from"] or []
+        quotes = ans.get("quote-from", [])
 
         quote_pages = "; ".join(str(q.get("page", "")) for q in quotes) if quotes else ""
         quote_texts = "\n -> ".join(q.get("texts", "") for q in quotes) if quotes else ""
