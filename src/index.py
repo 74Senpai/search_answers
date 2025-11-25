@@ -135,7 +135,8 @@ elif args.type_action == "search-file":
             batch_questions.clear()
             
             all_answers.extend(make_dict_for_excel(answers=answers))
-            time.sleep(60 / config.rate_limit_per_minute)
+            if config.rate_limit_per_minute > 0:
+                time.sleep(60 / config.rate_limit_per_minute)
 
     if batch_questions:
         res = answer_questions(model=model, questions=batch_questions)
