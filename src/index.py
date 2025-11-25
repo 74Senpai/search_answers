@@ -59,7 +59,7 @@ if args.type_action == "add-document":
     reader = PdfReader(args.file_path)
     doc_len = len(reader.pages)
     befor_chunk_txt = ""
-
+    print("Tiến hành trích xuất và lưu tài liệu ...")
     for i in range(doc_len):
         page = reader.pages[i]
         page_num = page.page_number + 1
@@ -72,7 +72,6 @@ if args.type_action == "add-document":
             overlap_ratio=CHUNK_OVERLAY
         )
         befor_chunk_txt = page_chunks[-1] if page_chunks else ""
-        print("Tiến hành trích xuất và lưu tài liệu ...")
         for chunk_i, chunk in enumerate(page_chunks):
             embedding = model.encode(chunk)
             embedding_str = json.dumps(embedding.tolist()) 
@@ -97,9 +96,10 @@ elif args.type_action == "search-single":
     res = answer_questions(model=model, questions=questions)
     answers = cleaning_answers(res.text)
     for answer in answers:
+        choices = "\n".join(answer["list-choice"])
         print(
             f"Câu hỏi : {answer['question']}\n"
-            f"Các lựa chọn : {answer['list-choice']}\n"
+            f"Các lựa chọn : {choices}\n"
             f"Bot-chọn : {answer['last-choice']}\n"
             f"Bot lập luận : {answer['bot-answer']}\n"
             f"Trích dẫn:\n"
@@ -114,6 +114,7 @@ elif args.type_action == "search-file":
         raise ValueError("Bạn cần cung cấp --file-path để thêm document")
 
     import pandas as pd
+    import time
     from utils.data_processing import answer_questions, cleaning_answers, make_dict_for_excel
 
     batch_size = config.question_batch_limit
@@ -121,16 +122,20 @@ elif args.type_action == "search-file":
     data_frame = pd.read_excel(path)
 
     all_answers = []
-
     for _, row in data_frame.iterrows():
-        batch_questions.append(row)
+        clean_text = ""
+        for col_name, item in row.items():
+            clean_text += f"{col_name}: {str(item).strip()}\n"
+        
+        batch_questions.append(clean_text)
 
         if len(batch_questions) == batch_size:
             res = answer_questions(model=model, questions=batch_questions)
             answers = cleaning_answers(res.text)
             batch_questions.clear()
-
+            
             all_answers.extend(make_dict_for_excel(answers=answers))
+            time.sleep(60 / config.rate_limit_per_minute)
 
     if batch_questions:
         res = answer_questions(model=model, questions=batch_questions)

@@ -15,7 +15,7 @@ chunk_data_process_batch = 500
 ## Số lượng văn bản liên quan 
 top_k = 10
 ## Số lượng câu hỏi tối đa mỗi batch
-question_batch_limit = 5
+question_batch_limit = 8
 ## Output excel path
 exl_path = r"Z:\my_tools\search_answers\output\answers_output.xlsx"
 
@@ -43,8 +43,27 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 4. **Xử lý trắc nghiệm:** Nếu có các lựa chọn A, B, C..., hãy xác định đáp án đúng nhất cho `last-choice`.
 
 ### ĐỊNH DẠNG OUTPUT (JSON)
+```json
 {
-  "question": "Câu hỏi gốc",
+  "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
+  "list-choice": ["Danh sách lựa chọn nếu có"],
+  "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
+  "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
+  "quote-from": [
+    {
+      "id_chunk": 123,
+      "page": 1,
+      "texts": "Trích dẫn nguyên văn đoạn 1"
+    },
+    {
+      "id_chunk": 456,
+      "page": 2,
+      "texts": "Trích dẫn nguyên văn đoạn 2 (nếu cần thiết)"
+    }
+  ]
+},
+{
+  "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
   "list-choice": ["Danh sách lựa chọn nếu có"],
   "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
   "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
@@ -61,6 +80,7 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
     }
   ]
 }
+```
 
 ### VÍ DỤ MINH HỌA
 
@@ -74,6 +94,7 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 }
 
 **Output:**
+```json
 {
   "question": "Nguyên nhân và hậu quả của sự kiện X?",
   "list-choice": [],
@@ -83,4 +104,6 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
     { "id_chunk": 1, "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm." },
     { "id_chunk": 5, "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu." }
   ]
-}"""
+}
+```
+"""

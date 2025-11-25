@@ -118,34 +118,28 @@ def answer_questions(model, questions):
 
 def cleaning_answers(answers):
     import json
-    list_raw = answers.split("```json")
+    raw = answers.replace("```json", "").replace("```", "")
     clean_answers = []
-    for raw in list_raw:
-        json_str = raw.replace("```", "").strip()
-        if not json_str:
-            continue
-        try:
-            clean_answers.append(json.loads(json_str))
-        except json.JSONDecodeError:
-            print(f"Cảnh báo: Không thể phân tích chuỗi JSON: {json_str}")
-            continue
+    try:
+        clean_answers = json.loads(raw.strip())
+    except json.JSONDecodeError:
+        print(f"Cảnh báo: Không thể phân tích chuỗi JSON: {raw}")
     
     return clean_answers
     
 def make_dict_for_excel(answers):
     answers_list = []
+    print(answers)
     for ans in answers:
-        quotes = ans.get("quote-from", [])
-        if quotes:
-            quote_pages = "; ".join(str(q.get("page", "")) for q in quotes)
-            quote_texts = "\n".join(q.get("texts", "") for q in quotes)
-        else:
-            quote_pages = ""
-            quote_texts = ""
+        print(f"ans{ans}")
+        quotes = ans["quote-from"] or []
+
+        quote_pages = "; ".join(str(q.get("page", "")) for q in quotes) if quotes else ""
+        quote_texts = "\n -> ".join(q.get("texts", "") for q in quotes) if quotes else ""
 
         answers_list.append({
-            "question": ans["question"],
-            "list_choice": ans.get("list-choice", []),
+            "question": ans.get("question", ""),
+            "list_choice": "\n".join(ans.get("list-choice", [])),
             "bot_answer": ans.get("bot-answer", ""),
             "last_choice": ans.get("last-choice", ""),
             "quote_pages": quote_pages,
@@ -153,3 +147,4 @@ def make_dict_for_excel(answers):
         })
 
     return answers_list
+
