@@ -20,7 +20,16 @@ các Model AI phổ biến.
 dữ liệu liên quan tới bảng, các công thức toán học, hình học đặc biệt, dữ liệu hình ảnh.
 - Độ chính xác với các câu hỏi có dữ liệu bị khiếm khuyết trong quá trình thêm vào cơ sở dữ liệu
 là chưa cao.
-- Còn khó khăn trong các câu hỏi đòi hỏi phân tích cao, có tập dữ liệu trải dài xuyên suốt tài liệu
+- Còn khó khăn trong các câu hỏi đòi hỏi phân tích cao, có tập dữ liệu trải dài xuyên suốt tài liệu.
+
+### Demo.
+- Demo chức năng tìm câu hỏi theo file excel.
+***Video được phát với tốc độ 5x***
+
+<video width="100%" height="auto" controls>
+  <source src="demo/Demo_search_answer.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ### Công cụ hỗ trợ
 1. Gemini AI API.
