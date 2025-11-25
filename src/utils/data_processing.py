@@ -129,9 +129,7 @@ def cleaning_answers(answers):
     
 def make_dict_for_excel(answers):
     answers_list = []
-    print(answers)
     for ans in answers:
-        print(f"ans{ans}")
         quotes = ans.get("quote-from", [])
 
         quote_pages = "; ".join(str(q.get("page", "")) for q in quotes) if quotes else ""
