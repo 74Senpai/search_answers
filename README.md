@@ -26,10 +26,7 @@ là chưa cao.
 - Demo chức năng tìm câu hỏi theo file excel.
 ***Video được phát với tốc độ 5x***
 
-<video width="100%" height="auto" controls>
-  <source src="demo/Demo_search_answer.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Watch the demo](https://img.youtube.com/vi/9GpvmCGVDc8/0.jpg)](https://youtu.be/9GpvmCGVDc8)
 
 ### Công cụ hỗ trợ
 1. Gemini AI API.
