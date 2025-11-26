@@ -59,6 +59,10 @@ if args.type_action == "add-document":
     reader = PdfReader(args.file_path)
     doc_len = len(reader.pages)
     befor_chunk_txt = ""
+    print("Tạo tham chiếu cho tài liệu ...")
+    title = reader.metadata.title or args.file_path
+    print(f"Tên tài liệu: {title}")
+    doc_id = db_mn.insert_document(title)
     print("Tiến hành trích xuất và lưu tài liệu ...")
     for i in range(doc_len):
         page = reader.pages[i]
@@ -78,9 +82,14 @@ if args.type_action == "add-document":
             if embedding.shape[0] == 0:
                 print(f"Page {page_num} | Chunk {chunk_i}: Embedding failed !!!")
             else:
-                db_mn.insert_chunk(page=page_num, texts=chunk, embedding_vectors=embedding_str)
+                db_mn.insert_chunk(
+                    id_doc=doc_id,
+                    page=page_num, 
+                    texts=chunk, 
+                    embedding_vectors=embedding_str
+                )
             
-        print("Lưu tài liệu thành công!")
+    print("Lưu tài liệu thành công!")
 
 elif args.type_action == "cleanup-db":
     confirm = input("Bạn có chắc muốn xóa toàn bộ database? (y/n): ").strip().lower()
@@ -94,17 +103,19 @@ elif args.type_action == "search-single":
     questions = args.questions
     from utils.data_processing import answer_questions, cleaning_answers
     res = answer_questions(model=model, questions=questions)
+
     answers = cleaning_answers(res.text)
     for answer in answers:
-        choices = "\n".join(answer["list-choice"])
+        choices = "\n".join(answer["list_choice"])
         print(
             f"Câu hỏi : {answer['question']}\n"
             f"Các lựa chọn : {choices}\n"
-            f"Bot-chọn : {answer['last-choice']}\n"
-            f"Bot lập luận : {answer['bot-answer']}\n"
+            f"Bot-chọn : {answer['last_choice']}\n"
+            f"Bot lập luận : {answer['bot_answer']}\n"
             f"Trích dẫn:\n"
         )
-        for chunk in answer["quote-from"]:
+        for chunk in answer["quote_from"]:
+            print(f"Tài liệu: {chunk['name_document']}")
             print(f"Trang : {chunk['page']}")
             print(f"Trích đoạn : {chunk['texts']}\n")
 

@@ -61,7 +61,7 @@ def generate_input_for_ai(questions, top_k_chunk):
             # print(chunk)
             chunk_data = database.find_chunk_text(chunk["id_chunk"])
             chunks_data.append({
-                "id_chunk" : chunk_data[0],
+                "name_document" : chunk_data[0],
                 "page" : chunk_data[1],
                 "texts" : chunk_data[2]
             })
@@ -121,7 +121,11 @@ def cleaning_answers(answers):
     raw = answers.replace("```json", "").replace("```", "")
     clean_answers = []
     try:
-        clean_answers = json.loads(raw.strip())
+        data = json.loads(raw.strip())
+        if isinstance(data, dict):
+            clean_answers.append(data)
+        else:
+            clean_answers.extend(data)
     except json.JSONDecodeError:
         print(f"Cảnh báo: Không thể phân tích chuỗi JSON: {raw}")
     
@@ -130,16 +134,16 @@ def cleaning_answers(answers):
 def make_dict_for_excel(answers):
     answers_list = []
     for ans in answers:
-        quotes = ans.get("quote-from", [])
+        quotes = ans.get("quote_from", [])
 
         quote_pages = "; ".join(str(q.get("page", "")) for q in quotes) if quotes else ""
         quote_texts = "\n -> ".join(q.get("texts", "") for q in quotes) if quotes else ""
 
         answers_list.append({
             "question": ans.get("question", ""),
-            "list_choice": "\n".join(ans.get("list-choice", [])),
-            "bot_answer": ans.get("bot-answer", ""),
-            "last_choice": ans.get("last-choice", ""),
+            "list_choice": "\n".join(ans.get("list_choice", [])),
+            "bot_answer": ans.get("bot_answer", ""),
+            "last_choice": ans.get("last_choice", ""),
             "quote_pages": quote_pages,
             "quote_texts": quote_texts
         })
