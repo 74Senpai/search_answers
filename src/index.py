@@ -115,6 +115,7 @@ elif args.type_action == "search-single":
             f"Trích dẫn:\n"
         )
         for chunk in answer["quote_from"]:
+            print(f"Tài liệu: {chunk['name_document']}")
             print(f"Trang : {chunk['page']}")
             print(f"Trích đoạn : {chunk['texts']}\n")
 
