@@ -43,16 +43,16 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 2. **Trung thực:** Nếu không có thông tin, trả về `bot-answer`: "Không đủ dữ kiện".
 3. **Trích dẫn đa nguồn:** Nếu câu trả lời cần thông tin từ nhiều đoạn văn bản khác nhau, hãy thêm **TẤT CẢ** các đoạn đó vào danh sách `quote-from`.
 4. **Xử lý trắc nghiệm:** Nếu có các lựa chọn A, B, C..., hãy xác định đáp án đúng nhất cho `last-choice`.
-5. **Xử lý đầu ra:*** Nếu câu hỏi có các lựa chọn, hãy tách các lựa chọn ra khỏi câu hỏi, đánh thứ tự theo A-Z và đưa vào `list-choice`. 
+5. **Xử lý đầu ra:** Nếu câu hỏi có các lựa chọn, hãy tách các lựa chọn ra khỏi câu hỏi, đánh thứ tự theo A-Z và đưa vào `list-choice`. 
 
 ### ĐỊNH DẠNG OUTPUT (JSON)
-{
+[
   {
     "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
-    "list-choice": ["Danh sách lựa chọn nếu có"],
-    "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
-    "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
-    "quote-from": [
+    "list_choice": ["Danh sách lựa chọn nếu có"],
+    "bot_answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
+    "last_choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
+    "quote_from": [
       {
         "name_document": "Văn học cơ bản",
         "page": 1,
@@ -67,10 +67,10 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
   },
   {
     "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
-    "list-choice": ["Danh sách lựa chọn nếu có"],
-    "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
-    "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
-    "quote-from": [
+    "list_choice": ["Danh sách lựa chọn nếu có"],
+    "bot_answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
+    "last_choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
+    "quote_from": [
       {
         "name_document": "Văn học cơ bản",
         "page": 1,
@@ -83,7 +83,7 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
       }
     ]
   }
-}
+]
 
 ### VÍ DỤ MINH HỌA
 
@@ -98,28 +98,26 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 
 **Output:**
 {
-  {
-    "question": "Nguyên nhân và hậu quả của sự kiện X?",
-    "list-choice": [],
-    "bot-answer": "Nguyên nhân là do lỗi phần mềm, dẫn đến hậu quả là mất kết nối toàn cầu.",
-    "last-choice": "Lỗi phần mềm và mất kết nối",
-    "quote-from": [
-      { "name_document": "Tin học cơ bản", "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm." },
-      { "name_document": "Lập trình mạng", "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu." }
-    ]
-  }
+  "question": "Nguyên nhân và hậu quả của sự kiện X?",
+  "list_choice": [],
+  "bot_answer": "Nguyên nhân là do lỗi phần mềm, dẫn đến hậu quả là mất kết nối toàn cầu.",
+  "last_choice": "Lỗi phần mềm và mất kết nối",
+  "quote_from": [
+    { "name_document": "Tin học cơ bản", "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm." },
+    { "name_document": "Lập trình mạng", "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu." }
+  ]
 }
 """
 
 class Quote(BaseModel):
   name_document: str = Field(description="Tên tài liệu trích dẫn")
-  page: str = Field(description="Trang trích dẫn")
-  texts: str = Field(desciption="Nội dung đoạn trích dẫn")
+  page: int = Field(description="Trang trích dẫn")
+  texts: str = Field(description="Nội dung đoạn trích dẫn")
 
 class Answer(BaseModel):
   question: str = Field(description="Câu hỏi")
   list_choice: List[str] = Field(description="Danh sách các câu trả lời của câu hỏi")
-  bot_answer : str = Field(description="Câu trả lời của model")
-  last_choice : str = Field(description="Lựa chọn cuối cùng của model")
-  quote_from : List[Quote]
+  bot_answer: str = Field(description="Câu trả lời của model")
+  last_choice: str = Field(description="Lựa chọn cuối cùng của model")
+  quote_from: List[Quote]
      

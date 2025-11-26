@@ -70,7 +70,7 @@ class DBManager:
         self.cursor.execute(insert_doc_query, (name_document,))
         new_doc_id = self.cursor.lastrowid
         if not new_doc_id:
-            raise Exception("Không thể tạo được tham chiếu cho tài liệu")
+            raise sqlite3.Error("Không thể tạo được tham chiếu cho tài liệu")
         
         return new_doc_id
 

@@ -62,7 +62,7 @@ trúc từ tài liệu excel cũng như hỗ trợ tạo và lưu kết quả x�
     + Tài liệu tham khảo : https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_excel.html
 
 6. Pydantic
-- `Pydantic` là một thư viễn hỗ trợ xác thực dữ liệu theo cấu trúc được định nghĩa. Trong dự án
+- `Pydantic` là một thư viện hỗ trợ xác thực dữ liệu theo cấu trúc được định nghĩa. Trong dự án
 nó được sử dụng để quy định dữ liệu trả về của `Gemini API` giúp dữ liệu có cấu trúc và ổn định hơn.
     + Tài liệu tham khảo : https://docs.pydantic.dev/latest/
     + Sử dụng với Gemini : https://ai.google.dev/gemini-api/docs/structured-output

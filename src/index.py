@@ -106,7 +106,7 @@ elif args.type_action == "search-single":
 
     answers = cleaning_answers(res.text)
     for answer in answers:
-        choices = "\n".join(list(answer["list_choice"]))
+        choices = "\n".join(answer["list_choice"])
         print(
             f"Câu hỏi : {answer['question']}\n"
             f"Các lựa chọn : {choices}\n"
