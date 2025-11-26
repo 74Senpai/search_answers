@@ -1,4 +1,6 @@
 import dotenv
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
 dotenv.load_dotenv()
 
@@ -41,46 +43,47 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 2. **Trung thực:** Nếu không có thông tin, trả về `bot-answer`: "Không đủ dữ kiện".
 3. **Trích dẫn đa nguồn:** Nếu câu trả lời cần thông tin từ nhiều đoạn văn bản khác nhau, hãy thêm **TẤT CẢ** các đoạn đó vào danh sách `quote-from`.
 4. **Xử lý trắc nghiệm:** Nếu có các lựa chọn A, B, C..., hãy xác định đáp án đúng nhất cho `last-choice`.
+5. **Xử lý đầu ra:*** Nếu câu hỏi có các lựa chọn, hãy tách các lựa chọn ra khỏi câu hỏi, đánh thứ tự theo A-Z và đưa vào `list-choice`. 
 
 ### ĐỊNH DẠNG OUTPUT (JSON)
-```json
 {
-  "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
-  "list-choice": ["Danh sách lựa chọn nếu có"],
-  "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
-  "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
-  "quote-from": [
-    {
-      "id_chunk": 123,
-      "page": 1,
-      "texts": "Trích dẫn nguyên văn đoạn 1"
-    },
-    {
-      "id_chunk": 456,
-      "page": 2,
-      "texts": "Trích dẫn nguyên văn đoạn 2 (nếu cần thiết)"
-    }
-  ]
-},
-{
-  "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
-  "list-choice": ["Danh sách lựa chọn nếu có"],
-  "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
-  "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
-  "quote-from": [
-    {
-      "id_chunk": 123,
-      "page": 1,
-      "texts": "Trích dẫn nguyên văn đoạn 1"
-    },
-    {
-      "id_chunk": 456,
-      "page": 2,
-      "texts": "Trích dẫn nguyên văn đoạn 2 (nếu cần thiết)"
-    }
-  ]
+  {
+    "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
+    "list-choice": ["Danh sách lựa chọn nếu có"],
+    "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
+    "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
+    "quote-from": [
+      {
+        "name_document": "Văn học cơ bản",
+        "page": 1,
+        "texts": "Trích dẫn nguyên văn đoạn 1"
+      },
+      {
+        "name_document": "Văn học Việt Nam",
+        "page": 2,
+        "texts": "Trích dẫn nguyên văn đoạn 2 (nếu cần thiết)"
+      }
+    ]
+  },
+  {
+    "question": "Câu hỏi gốc [tách các đáp án vào danh sách lựa chọn nếu có]",
+    "list-choice": ["Danh sách lựa chọn nếu có"],
+    "bot-answer": "Câu trả lời chi tiết (hoặc 'Không đủ dữ kiện')",
+    "last-choice": "Đáp án ngắn gọn/Ký tự A,B,C... (hoặc 'Không đủ dữ kiện')",
+    "quote-from": [
+      {
+        "name_document": "Văn học cơ bản",
+        "page": 1,
+        "texts": "Trích dẫn nguyên văn đoạn 1"
+      },
+      {
+        "name_document": "Văn học Việt Nam",
+        "page": 2,
+        "texts": "Trích dẫn nguyên văn đoạn 2 (nếu cần thiết)"
+      }
+    ]
+  }
 }
-```
 
 ### VÍ DỤ MINH HỌA
 
@@ -88,22 +91,35 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời câu hỏi 
 {
     "question": "Nguyên nhân và hậu quả của sự kiện X?",
     "chunks-top-k": [
-        {"id_chunk": 1, "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm."},
-        {"id_chunk": 5, "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu."}
+        {"name_document": "Tin học cơ bản", "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm."},
+        {"name_document": "Lập trình mạng", "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu."}
     ]
 }
 
 **Output:**
-```json
 {
-  "question": "Nguyên nhân và hậu quả của sự kiện X?",
-  "list-choice": [],
-  "bot-answer": "Nguyên nhân là do lỗi phần mềm, dẫn đến hậu quả là mất kết nối toàn cầu.",
-  "last-choice": "Lỗi phần mềm và mất kết nối",
-  "quote-from": [
-    { "id_chunk": 1, "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm." },
-    { "id_chunk": 5, "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu." }
-  ]
+  {
+    "question": "Nguyên nhân và hậu quả của sự kiện X?",
+    "list-choice": [],
+    "bot-answer": "Nguyên nhân là do lỗi phần mềm, dẫn đến hậu quả là mất kết nối toàn cầu.",
+    "last-choice": "Lỗi phần mềm và mất kết nối",
+    "quote-from": [
+      { "name_document": "Tin học cơ bản", "page": 1, "texts": "Nguyên nhân của sự kiện X là do lỗi phần mềm." },
+      { "name_document": "Lập trình mạng", "page": 4, "texts": "Hậu quả của sự kiện X là mất kết nối toàn cầu." }
+    ]
+  }
 }
-```
 """
+
+class Quote(BaseModel):
+  name_document: str = Field(description="Tên tài liệu trích dẫn")
+  page: str = Field(description="Trang trích dẫn")
+  texts: str = Field(desciption="Nội dung đoạn trích dẫn")
+
+class Answer(BaseModel):
+  question: str = Field(description="Câu hỏi")
+  list_choice: List[str] = Field(description="Danh sách các câu trả lời của câu hỏi")
+  bot_answer : str = Field(description="Câu trả lời của model")
+  last_choice : str = Field(description="Lựa chọn cuối cùng của model")
+  quote_from : List[Quote]
+     
