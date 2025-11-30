@@ -48,7 +48,7 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời **danh sác
 ### VÍ DỤ MINH HỌA (BATCH PROCESSING)
 
 **Input:**
-{   
+[
     {
       "question":  "Câu hỏi 1: Nguyên nhân sự kiện X?",
       "chunks-top-k": [
@@ -61,7 +61,7 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời **danh sác
           {"name_document": "Doc B", "page": 2, "texts": "Hậu quả X là mất kết nối."}
         ]
     }
-}
+]
 
 **Output:**
 {
