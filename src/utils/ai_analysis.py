@@ -24,7 +24,7 @@ def search_answer(input_data):
           thinking_config = types.ThinkingConfig(thinking_budget=config.thinking_budget),
           system_instruction = config.system_introduct,
           response_mime_type = "application/json",
-          response_json_schema = config.Answer.model_json_schema()
+          response_schema= config.AnswerResponse
         ),
         contents= input_data_json,
     )
