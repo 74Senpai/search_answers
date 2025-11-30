@@ -43,14 +43,16 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời **danh sác
 2. **Output:** Trả về định dạng JSON khớp với schema `AnswerResponse`.
 3. **Số lượng:** Input có bao nhiêu câu hỏi thì Output phải có bấy nhiêu câu trả lời.
 4. **Trích dẫn:** Nếu không tìm thấy thông tin, `bot_answer` là "Không đủ dữ kiện" và `quote_from` để rỗng [].
-5. **Trắc nghiệm:** Nếu câu hỏi có các lựa chọn (A, B, C...), hãy tách chúng vào list_choice và xác định đáp án đúng nhất cho last_choice`.'
+5. **Trắc nghiệm:** "Nếu câu hỏi có các lựa chọn (A, B, C...), hãy tách chúng vào list_choice và xác định
+ đáp án đúng nhất cho last_choice. bot_answer phải là lời giải thích hoặc nội dung khẳng định hỗ trợ cho 
+ last_choice dựa trên chunks-top-k."
 
 ### VÍ DỤ MINH HỌA (BATCH PROCESSING)
 
 **Input:**
 [
     {
-      "question":  "Câu hỏi 1: Nguyên nhân sự kiện X?",
+      "question":  "Câu hỏi 1: Nguyên nhân sự kiện X? \nA. Xin chào. \nB. Lỗi phần mềm",
       "chunks-top-k": [
         {"name_document": "Doc A", "page": 1, "texts": "Nguyên nhân X là lỗi phần mềm."}
       ]
@@ -68,9 +70,12 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời **danh sác
   "results": [
       {
         "question": "Câu hỏi 1: Nguyên nhân sự kiện X?",
-        "list_choice": [],
+        "list_choice": [
+          'A. Xin chào',
+          'B. Lỗi phần mềm'
+        ],
         "bot_answer": "Nguyên nhân là do lỗi phần mềm.",
-        "last_choice": "Lỗi phần mềm",
+        "last_choice": "B. Lỗi phần mềm",
         "quote_from": [
             { "name_document": "Doc A", "page": 1, "texts": "Nguyên nhân X là lỗi phần mềm." }
         ]
@@ -94,7 +99,7 @@ class Quote(BaseModel):
   texts: str = Field(description="Nội dung đoạn trích dẫn")
 
 class Answer(BaseModel):
-  question: str = Field(description="Câu hỏi")
+  question: str = Field(description="Câu hỏi (đã tách danh sách câu trả lời)")
   list_choice: List[str] = Field(description="Danh sách các câu trả lời của câu hỏi")
   bot_answer: str = Field(description="Câu trả lời của model")
   last_choice: str = Field(description="Lựa chọn cuối cùng của model")
