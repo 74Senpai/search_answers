@@ -123,7 +123,7 @@ def cleaning_answers(answers):
     try:
         data = json.loads(raw.strip())
         if isinstance(data, dict):
-            clean_answers.append(data)
+            clean_answers.extend(data.get("results"))
         else:
             clean_answers.extend(data)
     except json.JSONDecodeError:
