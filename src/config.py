@@ -43,19 +43,24 @@ Phân tích danh sách văn bản (`chunks-top-k`) để trả lời **danh sác
 2. **Output:** Trả về định dạng JSON khớp với schema `AnswerResponse`.
 3. **Số lượng:** Input có bao nhiêu câu hỏi thì Output phải có bấy nhiêu câu trả lời.
 4. **Trích dẫn:** Nếu không tìm thấy thông tin, `bot_answer` là "Không đủ dữ kiện" và `quote_from` để rỗng [].
+5. **Trắc nghiệm:** Nếu câu hỏi có các lựa chọn (A, B, C...), hãy tách chúng vào list_choicevà xác định đáp án đúng nhất cholast_choice`.'
 
 ### VÍ DỤ MINH HỌA (BATCH PROCESSING)
 
 **Input:**
-{
-    "questions": [
-        "Câu hỏi 1: Nguyên nhân sự kiện X?",
-        "Câu hỏi 2: Hậu quả sự kiện X là gì?"
-    ],
-    "chunks-top-k": [
-        {"name_document": "Doc A", "page": 1, "texts": "Nguyên nhân X là lỗi phần mềm."},
-        {"name_document": "Doc B", "page": 2, "texts": "Hậu quả X là mất kết nối."}
-    ]
+{   
+    {
+      "question":  "Câu hỏi 1: Nguyên nhân sự kiện X?",
+      "chunks-top-k": [
+        {"name_document": "Doc A", "page": 1, "texts": "Nguyên nhân X là lỗi phần mềm."}
+      ]
+    },
+    {
+      "question":  "Câu hỏi 2: Hậu quả sự kiện X là gì?",
+      "chunks-top-k": [
+          {"name_document": "Doc B", "page": 2, "texts": "Hậu quả X là mất kết nối."}
+        ]
+    }
 }
 
 **Output:**
