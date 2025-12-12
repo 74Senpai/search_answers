@@ -1,0 +1,12 @@
+name: Ping Server
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send ping
+        run: curl https://ragar.onrender.com/wakeup
