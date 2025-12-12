@@ -139,6 +139,11 @@ Lưu ý chung:
 > Đối với `Gemini` miễn phí, cần hạn chế các câu hỏi và nội dung không liên quan để giảm tiêu tốn tài nguyên giới hạn.
 > Cần chú ý `rate limit` và `token` tránh phát sinh các chi phí không cần thiết.
 
+> [!TIP]
+>  Hiện nay `Gemini` đã cập nhật gói miễn phí và giới hạn còn rất thấp, các bạn có thể canh nhắc đổi qua các dịch vụ khác có giới hạn tốt hơn hoặc nâng cấp lên gói trả phí.
+> 
+>  Triển khai với `MongoDB` version > 7.0 sẽ giảm độ phức tạp của quá trình phát triển.
+
 > [!WARNING]
 > Công cụ chỉ hỗ trợ lựa chọn đáp án cho là đúng nhất dựa theo dữ liệu.
 > Cần có tư duy phản biện và kiểm chứng lại câu trả lời.
